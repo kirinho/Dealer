@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Додати машину</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa; /* Bootstrap default background color */
+            color: #495057; /* Bootstrap default text color */
+        }
+
+        header {
+            background-color: #ff6600; /* Orange color for the entire header */
+        }
+
+        .navbar-brand {
+            margin-right: auto;
+            margin-left: 10px;
+            color: #ffffff !important;
+        }
+
+        .container {
+            margin-top: 20px;
+        }
+
+        h1 {
+            color: #ff6600; /* Orange color for header text */
+        }
+
+        p.lead {
+            font-size: 18px;
+        }
+
+        .btn-primary {
+            margin-top: 20px;
+            background-color: #ff6600 !important; /* Orange color for button */
+            border-color: #ff6600 !important; /* Orange color for button border */
+        }
+
+        .btn-primary:hover {
+            background-color: #cc5200 !important; /* Darker shade of orange on hover */
+            border-color: #cc5200 !important; /* Darker shade of orange on hover */
+        }
+        .btn-success {
+            margin-top: 20px;
+            background-color: #ff6600; /* Orange color for button */
+            border-color: #ff6600; /* Orange color for button border */
+        }
+
+        .btn-success:hover {
+            background-color: #cc5200; /* Darker shade of orange on hover */
+            border-color: #cc5200; /* Darker shade of orange on hover */
+        }
+
+
+
+        .btn-logout {
+            background-color: #ff6600; /* Set the background color */
+            border: none;
+            padding: 0;
+            font: inherit;
+            cursor: pointer;
+            outline: none;
+            text-decoration: none;
+            color: #ffffff !important;
+            transition: text-decoration 0.3s;
+        }
+
+        .btn-logout:hover {
+            text-decoration: underline;
+        }
+
+        .btn-logout:active {
+            text-decoration: underline;
+        }
+        .navbar-nav .nav-link {
+            color: #ffffff !important; /* White color for nav links */
+            text-decoration: none; /* Remove default underline for nav links */
+        }
+
+        .navbar-nav .nav-link:hover {
+            text-decoration: underline; /* Underline for nav links on hover */
+        }
+
+        *{
+            box-sizing: border-box;
+            padding: 0;
+            margin: 0;
+        }
+
+        body{
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+        }
+        img{
+            width: 100%;
+        }
+        .wrapper{
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--primary-color);
+        }
+        .upload{
+            background-color: var(--white-color);
+            border-radius: 10px;
+            box-shadow: rgb(21, 68, 183) 0px 8px 24px;
+            width: 340px;
+            min-height: 360px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        .upload-info p{
+            opacity: 0.6;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+        .upload-wrapper{
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .upload-img{
+            max-height: 200px;
+            overflow-y: scroll;
+        }
+        .upload-img::-webkit-scrollbar-track{
+            box-shadow: inset 0 0 6px var(--black-20-color);
+            border-radius: 6px;
+        }
+        .upload-img::-webkit-scrollbar-thumb{
+            background-color: var(--black-10-color);
+            border-radius: 6px;
+        }
+        .upload-img::-webkit-scrollbar{
+            width: 5px;
+        }
+        .upload-area{
+            padding: 20px;
+            border: 2px dashed var(--black-20-color);
+            border-radius: 8px;
+            margin-top: 20px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .upload-area:hover{
+            background-color: rgba(176, 196, 246, 0.1);
+        }
+        .upload-area-img img{
+            max-width: 80px;
+        }
+        .upload-area-text{
+            font-weight: 700;
+            color: var(--black-50-color);
+        }
+        .upload-area-text span{
+            color: var(--primary-color);
+        }
+        .visually-hidden{
+            visibility: hidden;
+            opacity: 0;
+        }
+        .upload-img{
+            width: 340px;
+        }
+        .uploaded-img{
+            padding: 4px 0;
+            position: relative;
+        }
+
+
+        .remove-btn{
+            width: 22px;
+            height: 22px;
+            background-color: var(--white-color);
+            border: 1px solid var(--primary-color);
+            border-radius: 50%;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: absolute;
+            top: -5px;
+            right: -8px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .remove-btn:hover{
+            background-color: var(--primary-color);
+            color: var(--white-color);
+        }
+    </style>
+</head>
+<body>
+<header>
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <a class="navbar-brand" href="/">
+            <img src="/images/Logo.png" alt="Logo" width="30" height="30" class="d-inline-block align-top">
+            Dealer
+        </a>
+        <ul class="navbar-nav" style="margin-right: 10px;">
+            <li class="nav-item">
+                <a class="nav-link" href="/addBrand">Редагувати бренди</a>
+            </li></ul>
+
+        <ul class="navbar-nav" style="margin-right: 10px;">
+            <form action="/logout" method="POST">
+                <button type="submit" class="btn-logout">Вийти</button>
+            </form>
+        </ul>
+
+    </nav>
+</header>
+
+
+<div class="container mt-5">
+    <h2 th:text="'Додати машину до бренду - ' + ${brand.name}"/>
+    <form th:action="@{/saveCar}" method="post" enctype="multipart/form-data">
+        <input type="hidden" th:name="brandId" th:value="${brand.id}" />
+
+        <div class = 'wrapper'>
+            <div class = "upload">
+                <div class = "upload-wrapper">
+                    <div class = "upload-img">
+                    </div>
+                    <div class = "upload-info">
+                        <p>
+                            <span class = "upload-info-value">0</span> file(s) uploaded.
+                        </p>
+                    </div>
+                    <div class = "upload-area">
+                        <div class = "upload-area-img">
+                            <img src = "assets/upload.png" alt = "">
+                        </div>
+                        <p class = "upload-area-text">Select images or <span>browse</span>.</p>
+                    </div>
+                    <input type = "file" class = "visually-hidden" id = "upload-input" name="upload-input" multiple>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <label for="Model">Модель:</label>
+            <input type="text" class="form-control" id="Model" name="Model" required>
+        </div>
+
+        <div class="form-group">
+            <label for="City">Місто знаходження:</label>
+            <input type="text" class="form-control" id="City" name="City" required>
+        </div>
+
+        <div class="form-group">
+            <label for="Year">Рік випуску:</label>
+            <select class="form-control" id="Year" name="Year" required>
+                <th:block th:each="year : ${#numbers.sequence(1990, 2023)}">
+                    <option th:value="${year}" th:text="${year}"></option>
+                </th:block>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="Mileage">Пробіг(км):</label>
+            <input type="number" class="form-control" id="Mileage" name="Mileage" required>
+        </div>
+
+        <div class="form-group">
+            <label for="Type">Тип кузову:</label>
+            <select class="form-control" id="Type" name="Type" required>
+                <option value="Седан">Седан</option>
+                <option value="Купе">Купе</option>
+                <option value="Позашляховик">Позашляховик</option>
+                <option value="Кросовер">Кросовер</option>
+                <option value="Хетчбек">Хетчбек</option>
+                <option value="Універсал">Універсал</option>
+                <option value="Кабріолет">Кабріолет</option>
+                <option value="Пікап">Пікап</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="Colour">Колір:</label>
+            <input type="text" class="form-control" id="Colour" name="Colour" required>
+        </div>
+
+        <div class="form-group">
+            <label for="TypeEngine">Тип двигуну:</label>
+            <select class="form-control" id="TypeEngine" name="TypeEngine" required>
+                <option value="Бензиновий">Бензиновий</option>
+                <option value="Гібридний">Гібридний</option>
+                <option value="Дизельний">Дизельний</option>
+                <option value="Електричний">Електричний</option>
+                <option value="Газовий">Газовий</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="SizeEngine">Об'єм двигуну:</label>
+            <input type="number" step="0.01" class="form-control" id="SizeEngine" name="SizeEngine" placeholder="Вводіть дані в форматі 2.2 або 2,2; якщо ціла - 2" required>
+        </div>
+
+        <div class="form-group">
+            <label for="PowerEngine">Кількість кінських сил:</label>
+            <input type="number" class="form-control" id="PowerEngine" name="PowerEngine" required>
+        </div>
+
+        <div class="form-group">
+            <label for="Box">Коробка передач:</label>
+            <select class="form-control" id="Box" name="Box" required>
+                <option value="Механічна">Механічна</option>
+                <option value="Автоматична">Автоматична</option>
+                <option value="Полуавтоматична">Полуавтоматична</option>
+                <option value="Електрична">Електрична</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="TypeDrive">Привід:</label>
+            <select class="form-control" id="TypeDrive" name="TypeDrive" required>
+                <option value="Передній">Передній</option>
+                <option value="Задній">Задній</option>
+                <option value="Повний">Повний</option>
+                <option value="Гібридний">Гібридний</option>
+                <option value="Електричний">Електричний</option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-success">Додати</button>
+    </form>
+</div>
+
+<footer class="text-center py-3">
+    <p>&copy; 2023 Dealer Application</p>
+</footer>
+<script src="https://code.jquery.com/jquery-3.6.3.js" integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM=" crossorigin="anonymous"></script>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    $(document).ready(function(){
+        $(".upload-area").click(function(){
+            $('#upload-input').trigger('click');
+        });
+
+        $('#upload-input').change(event => {
+            if(event.target.files){
+                let filesAmount = event.target.files.length;
+                $('.upload-img').html("");
+
+                for(let i = 0; i < filesAmount; i++){
+                    let reader = new FileReader();
+                    reader.onload = function(event){
+                        let html = `
+                            <div class = "uploaded-img">
+                                <img src = "${event.target.result}">
+                                <button type = "button" class = "remove-btn">
+                                    <i class = "fas fa-times"></i>
+                                </button>
+                            </div>
+                        `;
+                        $(".upload-img").append(html);
+                    }
+                    reader.readAsDataURL(event.target.files[i]);
+                }
+
+                $('.upload-info-value').text(filesAmount);
+                $('.upload-img').css('padding', "20px");
+            }
+        });
+
+        $(window).click(function(event){
+            if($(event.target).hasClass('remove-btn')){
+                $(event.target).parent().remove();
+            } else if($(event.target).parent().hasClass('remove-btn')){
+                $(event.target).parent().parent().remove();
+            }
+        })
+    });
+
+</script>
+
+</body>
+</html>

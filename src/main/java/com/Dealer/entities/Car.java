@@ -1,6 +1,7 @@
 package com.Dealer.entities;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "cars")
@@ -10,7 +11,9 @@ public class Car {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String city; // місце знаходження
+    private String model; // модель
+
+    private String city; // місто знаходження
 
     private int year; // рік випуску
 
@@ -18,24 +21,28 @@ public class Car {
 
     private String type; // тип кузову
 
-    private String color; // колір
+    private String colour; // колір
 
     private String typeEngine; // тип двигуну
 
-    private double sizeEngine; // скільки літрів
+    private double sizeEngine; // об'єм двигуну
 
     private int powerEngine; // кількість коней
 
     private String box; // коробка
 
-    private String typeDrive; // привод
-
+    private String typeDrive; // привід
+    @ElementCollection
     @Lob
-    private byte[] photos; // фото авто
+    private List<byte[]> photos; // фото авто
 
     @ManyToOne
     @JoinColumn(name = "brand_id")
     private Brand brand;
+
+    public String getModel() {
+        return model;
+    }
 
     public Long getId() {
         return id;
@@ -57,8 +64,8 @@ public class Car {
         return type;
     }
 
-    public String getColor() {
-        return color;
+    public String getColour() {
+        return colour;
     }
 
     public String getTypeEngine() {
@@ -81,7 +88,7 @@ public class Car {
         return typeDrive;
     }
 
-    public byte[] getPhotos() {
+    public List<byte[]> getPhotos() {
         return photos;
     }
 
@@ -105,8 +112,8 @@ public class Car {
         this.type = type;
     }
 
-    public void setColor(String color) {
-        this.color = color;
+    public void setColour(String colour) {
+        this.colour = colour;
     }
 
     public void setTypeEngine(String typeEngine) {
@@ -129,11 +136,15 @@ public class Car {
         this.typeDrive = typeDrive;
     }
 
-    public void setPhotos(byte[] photos) {
+    public void setPhotos(List<byte[]> photos) {
         this.photos = photos;
     }
 
     public void setBrand(Brand brand) {
         this.brand = brand;
+    }
+
+    public void setModel(String model) {
+        this.model = model;
     }
 }

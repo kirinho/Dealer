@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Greeting Page</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            color: #495057;
+        }
+
+        header {
+        background-color: #ff6600;
+      }
+
+
+        .navbar-brand {
+            margin-right: auto;
+            margin-left: 10px;
+            color: #ffffff !important;
+        }
+
+        .navbar-nav .nav-link {
+            color: #ffffff !important;
+            text-decoration: none;
+        }
+
+        .navbar-nav .nav-link:hover {
+            text-decoration: underline;
+        }
+
+        .container {
+            margin-top: 20px;
+        }
+        p.lead {
+            font-size: 18px;
+        }
+
+        .btn-primary {
+            margin-top: 20px;
+            background-color: #ff6600;
+            border-color: #ff6600;
+        }
+
+        .btn-primary:hover {
+            background-color: #cc5200;
+            border-color: #cc5200;
+        }
+        .btn-logout {
+            background-color: #ff6600;
+            border: none;
+            padding: 0;
+            font: inherit;
+            cursor: pointer;
+            outline: none;
+            text-decoration: none;
+            color: #ffffff !important;
+            transition: text-decoration 0.3s;
+        }
+
+        .btn-logout:hover {
+            text-decoration: underline;
+        }
+
+        .btn-logout:active {
+            text-decoration: underline;
+        }
+
+               table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        img {
+            max-width: 100px; /* Adjust the max-width as needed */
+            height: auto;
+            display: block;
+            margin: auto;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <a class="navbar-brand" href="/">
+            <img src="images/Logo.png" alt="Logo" width="30" height="30" class="d-inline-block align-top">
+            Dealer
+        </a>
+
+        <ul class="navbar-nav" style="margin-right: 10px;">
+            <form action="/logout" method="POST">
+                <button type="submit" class="btn-logout">Вийти</button>
+            </form>
+        </ul>
+    </nav>
+</header>
+<h2>Car List</h2>
+<table>
+    <tr>
+        <th>Car ID</th>
+        <th>Car Model</th>
+        <th>Car City</th>
+        <th>Car Year</th>
+        <th>Car Mileage</th>
+        <th>Car Type</th>
+        <th>Car Colour</th>
+        <th>Photos</th>
+    </tr>
+    <tr th:each="car, carIndex : ${cars}">
+        <td th:text="${car.id}">Car ID</td>
+        <td th:text="${car.model}">Car Model</td>
+        <td th:text="${car.city}">Car City</td>
+        <td th:text="${car.year}">Car Year</td>
+        <td th:text="${car.mileage}">Car Mileage</td>
+        <td th:text="${car.type}">Car Type</td>
+        <td th:text="${car.colour}">Car Colour</td>
+        <td>
+        <td>
+            <div th:each="photoIndex : ${#numbers.sequence(0, car.photos.size() - 1)}">
+                <img th:src="${'data:image/png;base64,' + base64[carIndex.index * car.photos.size() + photoIndex]}" alt="Car Photo"/>
+            </div>
+        </td>
+    </tr>
+
+</table>
+</body>
+</html>
