@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Greeting Page</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css">
+   <style>
+       body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            color: #495057;
+        }
+
+        header {
+            background-color: #ff6600;
+        }
+
+
+        .navbar-brand {
+            margin-right: auto;
+            margin-left: 10px;
+            color: #ffffff !important;
+        }
+
+        .navbar-nav .nav-link {
+            color: #ffffff !important;
+            text-decoration: none;
+        }
+
+        .navbar-nav .nav-link:hover {
+            text-decoration: underline;
+        }
+
+        .container {
+            margin-top: 20px;
+        }
+        p.lead {
+            font-size: 18px;
+        }
+
+        .btn-primary {
+            margin-top: 20px;
+            background-color: #ff6600;
+            border-color: #ff6600;
+        }
+
+        .btn-primary:hover {
+            background-color: #cc5200;
+            border-color: #cc5200;
+        }
+        .btn-logout {
+            background-color: #ff6600;
+            border: none;
+            padding: 0;
+            font: inherit;
+            cursor: pointer;
+            outline: none;
+            text-decoration: none;
+            color: #ffffff !important;
+            transition: text-decoration 0.3s;
+        }
+
+        .btn-logout:hover {
+            text-decoration: underline;
+        }
+
+        .btn-logout:active {
+            text-decoration: underline;
+        }
+
+               table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        img {
+            max-width: 100px; /* Adjust the max-width as needed */
+            height: auto;
+            display: block;
+            margin: auto;
+        }
+        #car-info {
+            margin-left: 25px;
+            height: 500px;
+            overflow: auto;
+        }
+
+        .car-container {
+            height: 250px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        .car-info-container {
+              column-count: 2;
+              column-gap: 20px;
+        }
+   </style>
+</head>
+<body>
+
+
+<header>
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <a class="navbar-brand" href="/">
+            <img src="/images/Logo.png" alt="Logo" width="30" height="30" class="d-inline-block align-top">
+            Dealer
+        </a>
+        <div class="ml-auto">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="/cars">Назад</a>
+                </li>
+            </ul>
+        </div>
+
+        <ul class="navbar-nav" style="margin-right: 10px;">
+            <form action="/logout" method="POST">
+                <button type="submit" class="btn-logout">Вийти</button>
+            </form>
+        </ul>
+    </nav>
+</header>
+
+<section id="car-info" style="margin-left: 25px;">
+
+        <div class="car-info-container">
+            <div th:each="photo : ${base64}">
+                <img th:src="${'data:image/jpeg;base64,' + photo}" alt="Car Photo">
+            </div>
+
+            <div class="car-info">
+                <p><strong>🎟 Модель: </strong> <span th:text="${car.model}"></span></p>
+                <p><strong>📆 Рік випуску: </strong> <span th:text="${car.year} + ' р.'"></span></p>
+                <p><strong>💪 Потужність: </strong> <span th:text="${car.typeEngine} + ' / ' + ${car.sizeEngine} + ' л. / ' + ${car.powerEngine} + ' к.с.'"></span></p>
+            </div>
+            <div class="car-info">
+                <p><strong>👟 Пробіг: </strong> <span th:text="${car.mileage} + ' км'"></span></p>
+                <p><strong>📦 Коробка: </strong> <span th:text="${car.box}"></span></p>
+                <p><strong>📍 Місто: </strong> <span th:text="'м. ' + ${car.city}"></span></p>
+                <p><strong>💧 Колір: </strong> <span th:text="${car.colour}"></span></p>
+                <p><strong>🚗 Тип кузову: </strong> <span th:text="${car.type}"></span></p>
+                <p><strong>🧩</strong> <span th:text="${car.typeDrive}"></span></p>
+            </div>
+        </div>
+</section>
+
+
+
+<script>
+
+</script>
+
+
+</body>
+</html>

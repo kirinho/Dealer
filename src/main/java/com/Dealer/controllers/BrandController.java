@@ -4,6 +4,7 @@ import com.Dealer.entities.Brand;
 import com.Dealer.entities.Car;
 import com.Dealer.entities.User;
 import com.Dealer.services.BrandService;
+import com.Dealer.services.CarService;
 import com.Dealer.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -19,6 +20,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,6 +31,7 @@ public class BrandController {
 
     @Autowired
     private BrandService brandService;
+
 
     @GetMapping("addBrand")
     public String addBrand(Model model, Authentication authentication){
@@ -53,6 +56,8 @@ public class BrandController {
         model.addAttribute("brand", brand);
         return "addCar";
     }
+
+
     @GetMapping("/deleteBrand/{brandId}")
     public String deleteBrand(@PathVariable Long brandId){
         try {
@@ -77,6 +82,7 @@ public class BrandController {
                           @RequestParam int PowerEngine,
                           @RequestParam String Box,
                           @RequestParam String TypeDrive,
+                          @RequestParam int Price,
                           @RequestParam("upload-input") MultipartFile[] carPhotos) throws IOException {
 
         Brand brand = brandService.getBrandById(brandId);
@@ -92,6 +98,7 @@ public class BrandController {
         car.setPowerEngine(PowerEngine);
         car.setBox(Box);
         car.setTypeDrive(TypeDrive);
+        car.setPrice(Price);
         car.setBrand(brand);
         List<byte[]> photoList = new ArrayList<>();
 

@@ -1,5 +1,6 @@
 package com.Dealer.services;
 
+import com.Dealer.entities.Brand;
 import com.Dealer.entities.Car;
 import com.Dealer.repositories.CarRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,10 @@ public class CarService {
 
     public void deleteCar(Long carId){
         carRepository.deleteById(carId);
+    }
+
+    public List<Car> getCarsByBrand(Long brandId){
+        return carRepository.findByBrandId(brandId);
     }
 
 }

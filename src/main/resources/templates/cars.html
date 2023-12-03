@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Greeting Page</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css">
+
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -25,7 +26,7 @@
 
         .navbar-nav .nav-link {
             color: #ffffff !important;
-            text-decoration: none;
+            text-decoration: none !important;
         }
 
         .navbar-nav .nav-link:hover {
@@ -69,7 +70,7 @@
             text-decoration: underline;
         }
 
-               table {
+        table {
             border-collapse: collapse;
             width: 100%;
         }
@@ -90,6 +91,60 @@
             display: block;
             margin: auto;
         }
+        #car-info {
+            margin-left: 25px;
+            height: 500px;
+            overflow: auto;
+        }
+
+        .car-container {
+            height: 250px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        .car-info-container {
+              column-count: 3;
+              column-gap: 20px;
+        }
+
+        form#filterForm {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            margin-right: 10px;
+        }
+
+        select {
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            margin-right: 10px;
+        }
+
+        button {
+            padding: 8px 12px;
+            background-color: #ff6600;
+            border: 1px solid #cc5200;
+            border-radius: 3px;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #cc5200;
+            border-color: #cc5200;
+        }
+
+
     </style>
 </head>
 <body>
@@ -107,34 +162,50 @@
         </ul>
     </nav>
 </header>
-<h2>Car List</h2>
-<table>
-    <tr>
-        <th>Car ID</th>
-        <th>Car Model</th>
-        <th>Car City</th>
-        <th>Car Year</th>
-        <th>Car Mileage</th>
-        <th>Car Type</th>
-        <th>Car Colour</th>
-        <th>Photos</th>
-    </tr>
-    <tr th:each="car, carIndex : ${cars}">
-        <td th:text="${car.id}">Car ID</td>
-        <td th:text="${car.model}">Car Model</td>
-        <td th:text="${car.city}">Car City</td>
-        <td th:text="${car.year}">Car Year</td>
-        <td th:text="${car.mileage}">Car Mileage</td>
-        <td th:text="${car.type}">Car Type</td>
-        <td th:text="${car.colour}">Car Colour</td>
-        <td>
-        <td>
-            <div th:each="photoIndex : ${#numbers.sequence(0, car.photos.size() - 1)}">
-                <img th:src="${'data:image/png;base64,' + base64[carIndex.index * car.photos.size() + photoIndex]}" alt="Car Photo"/>
-            </div>
-        </td>
-    </tr>
 
-</table>
+<form id="filterForm" method="get" action="/cars">
+    <label for="filterBrand">Фільтр:</label>
+    <select id="filterBrand" name="filterBrand">
+        <option value="">Немає фільтрів</option>
+        <th:block th:each="brand : ${brands}">
+            <option th:value="${brand.id}" th:text="${brand.name}" th:selected="${brand.id == selectedBrand}"></option>
+        </th:block>
+    </select>
+
+    <button type="submit">Застосувати</button>
+</form>
+
+
+
+<h2>Car List</h2>
+<section id="car-info" style="margin-left: 25px;">
+
+    <div th:each="car, carIndex : ${cars}" class="car-container" style="margin-bottom: 20px; border: 1px solid #ccc; padding: 10px; border-radius: 5px;">
+
+        <div class="car-photo" style="float: left; margin-right: 20px;">
+            <img th:src="${'data:image/png;base64,' + base64[carIndex.index]}" alt="Car Photo" style="width: 280px; height: 230px; max-width: 100%; max-height: 100%;"/>
+        </div>
+        <a th:href="@{'/carDetails/' + ${car.id}}" style="text-decoration: none; color: black;">
+    <div class="car-info-container">
+        <div class="car-info">
+            <p><strong>🎟</strong> <span th:text="${car.model}"></span></p>
+            <p><strong>📆</strong> <span th:text="${car.year} + ' р.'"></span></p>
+            <p><strong>💪</strong> <span th:text="${car.typeEngine}"></span></p>
+        </div>
+        <div class="car-info">
+            <p><strong>👟</strong> <span th:text="${car.mileage} + ' км'"></span></p>
+            <p><strong>📦</strong> <span th:text="${car.box}"></span></p>
+            <p><strong>📍</strong> <span th:text="'м. ' + ${car.city}"></span></p>
+        </div>
+        <div class="car-info">
+            <p><strong></strong> <span th:text="${car.price} + ' 💲'"></span></p>
+            <p><strong></strong> <span th:text="${car.price * 40} + ' ₴'"></span></p>
+        </div>
+    </div>
+        </a>
+</div>
+
+</section>
+
 </body>
 </html>

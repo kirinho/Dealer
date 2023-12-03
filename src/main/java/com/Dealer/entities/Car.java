@@ -32,6 +32,8 @@ public class Car {
     private String box; // коробка
 
     private String typeDrive; // привід
+
+    private int price; // ціна на машину
     @ElementCollection
     @Lob
     private List<byte[]> photos; // фото авто
@@ -39,6 +41,10 @@ public class Car {
     @ManyToOne
     @JoinColumn(name = "brand_id")
     private Brand brand;
+
+    public int getPrice() {
+        return price;
+    }
 
     public String getModel() {
         return model;
@@ -146,5 +152,9 @@ public class Car {
 
     public void setModel(String model) {
         this.model = model;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
     }
 }

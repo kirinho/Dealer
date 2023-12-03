@@ -115,6 +115,7 @@
             align-items: center;
             justify-content: center;
             overflow: hidden;
+
         }
         .upload-info p{
             opacity: 0.6;
@@ -129,7 +130,7 @@
             align-items: center;
         }
         .upload-img{
-            max-height: 200px;
+            max-height: 400px;
             overflow-y: scroll;
         }
         .upload-img::-webkit-scrollbar-track{
@@ -147,7 +148,7 @@
             padding: 20px;
             border: 2px dashed var(--black-20-color);
             border-radius: 8px;
-            margin-top: 20px;
+            margin-top: 10px;
             cursor: pointer;
             transition: var(--transition);
         }
@@ -242,7 +243,7 @@
                         </div>
                         <p class = "upload-area-text">Select images or <span>browse</span>.</p>
                     </div>
-                    <input type = "file" class = "visually-hidden" id = "upload-input" name="upload-input" multiple>
+                    <input type = "file" class = "visually-hidden" id = "upload-input" name="upload-input" multiple required>
                 </div>
             </div>
         </div>
@@ -331,6 +332,11 @@
                 <option value="Гібридний">Гібридний</option>
                 <option value="Електричний">Електричний</option>
             </select>
+        </div>
+
+        <div class="form-group">
+            <label for="Price">Ціна(в доларах):</label>
+            <input type="number" class="form-control" id="Price" name="Price" required>
         </div>
 
         <button type="submit" class="btn btn-success">Додати</button>
