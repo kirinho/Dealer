@@ -5,6 +5,8 @@ import com.Dealer.entities.Car;
 import com.Dealer.services.BrandService;
 import com.Dealer.services.CarService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,6 +31,9 @@ public class CarController {
     public String getAllCars(Model model, @RequestParam(name = "filterBrand", required = false) Long selectedBrand) {
         List<Car> cars;
         List<String> base64Photos;
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        boolean isAdmin = authentication.getAuthorities().stream()
+                .anyMatch(authority -> authority.getAuthority().equals("ROLE_ADMIN"));
 
         if (selectedBrand != null) {
             cars = carService.getCarsByBrand(selectedBrand);
@@ -47,7 +52,7 @@ public class CarController {
         model.addAttribute("selectedBrand", selectedBrand);
         model.addAttribute("cars", cars);
         model.addAttribute("base64", base64Photos);
-        return "cars";
+        return isAdmin ? "carsAdmin" : "cars";
     }
 
 

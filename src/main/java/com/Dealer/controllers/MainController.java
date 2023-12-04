@@ -39,8 +39,5 @@ public class MainController {
     @GetMapping("register")
     public String register(){return "register";}
 
-//    @GetMapping("cars")
-//    public String cars(){
-//        return "cars";
-//    }
+
 }

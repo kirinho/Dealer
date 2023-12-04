@@ -83,6 +83,7 @@ public class BrandController {
                           @RequestParam String Box,
                           @RequestParam String TypeDrive,
                           @RequestParam int Price,
+                          @RequestParam String Description,
                           @RequestParam("upload-input") MultipartFile[] carPhotos) throws IOException {
 
         Brand brand = brandService.getBrandById(brandId);
@@ -99,6 +100,7 @@ public class BrandController {
         car.setBox(Box);
         car.setTypeDrive(TypeDrive);
         car.setPrice(Price);
+        car.setDescription(Description);
         car.setBrand(brand);
         List<byte[]> photoList = new ArrayList<>();
 
