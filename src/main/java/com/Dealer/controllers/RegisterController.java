@@ -5,6 +5,11 @@ import com.Dealer.entities.Status;
 import com.Dealer.entities.User;
 import com.Dealer.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,11 +22,13 @@ public class RegisterController {
     private UserRepository userRepository;
     @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private AuthenticationManager authenticationManager;
     @PostMapping("register")
     public String registration(Model model, String username, String password){
         User existingUser = userRepository.findByUsername(username);
         if(existingUser != null){
-            model.addAttribute("errorMessage", "User with this username already exists.");
+            model.addAttribute("errorMessage", "З таким логіном користувач вже існує!");
             return "register";
         }
         else {
@@ -29,10 +36,13 @@ public class RegisterController {
             newUser.setUsername(username);
             String encodedPassword = passwordEncoder.encode(password);
             newUser.setPassword(encodedPassword);
-            newUser.setRole(Role.ADMIN);
+            newUser.setRole(Role.USER);
             newUser.setStatus(Status.ACTIVE);
             userRepository.save(newUser);
-            return "redirect:/login";
+            Authentication authentication = new UsernamePasswordAuthenticationToken(newUser.getUsername(), password);
+            authentication = authenticationManager.authenticate(authentication);
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            return "redirect:/cars";
         }
     }
 }

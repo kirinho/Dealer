@@ -24,4 +24,5 @@ public class BrandService {
     public void deleteBrand(Long brandId){
         brandRepository.deleteById(brandId);
     }
+
 }

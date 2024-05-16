@@ -15,6 +15,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.authentication.AuthenticationManager;
+
 
 @Configuration
 @EnableWebSecurity
@@ -28,14 +30,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         this.userDetailsService = userDetailsService;
     }
 
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/" , "/register", "/images/**").permitAll()
-                .antMatchers("/addBrand", "/viewCars", "/addCar").hasRole(Role.ADMIN.name())
+                .antMatchers("/addBrand", "/viewCars", "/addCar", "/updateCar").hasRole(Role.ADMIN.name())
                 .anyRequest()
                 .authenticated()
                 .and()
@@ -56,9 +57,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.authenticationProvider(daoAuthenticationProvider());
     }
-
-
-
+    @Bean
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
+    }
 
     @Bean
     protected PasswordEncoder passwordEncoder() {

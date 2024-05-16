@@ -1,6 +1,5 @@
 package com.Dealer.services;
 
-import com.Dealer.entities.Brand;
 import com.Dealer.entities.Car;
 import com.Dealer.repositories.CarRepository;
 import org.springframework.beans.factory.annotation.Autowired;

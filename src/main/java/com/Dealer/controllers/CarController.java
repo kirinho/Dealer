@@ -13,7 +13,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
@@ -101,6 +104,56 @@ public class CarController {
         }
 
     }
+    @GetMapping("/updateCar/{carId}")
+    public String showUpdateCarForm(@PathVariable Long carId, Model model) {
+        Car car = carService.getCarById(carId);
+        model.addAttribute("item", car);
+        return "updateCar";
+    }
 
-
+    @PostMapping("/updateCar/{carId}")
+    public String updateCar(RedirectAttributes redirectAttributes,
+                            @RequestParam Long carId,
+                            @RequestParam Long brandId,
+                            @RequestParam String Model,
+                            @RequestParam String City,
+                            @RequestParam int Year,
+                            @RequestParam int Mileage,
+                            @RequestParam String Type,
+                            @RequestParam String Colour,
+                            @RequestParam String TypeEngine,
+                            @RequestParam double SizeEngine,
+                            @RequestParam int PowerEngine,
+                            @RequestParam String Box,
+                            @RequestParam String TypeDrive,
+                            @RequestParam int Price,
+                            @RequestParam String Description,
+                            @RequestParam("upload-input") MultipartFile[] carPhotos) throws IOException {
+        var car = carService.getCarById(carId);
+        var brand = brandService.getBrandById(brandId);
+        car.setModel(Model);
+        car.setCity(City);
+        car.setYear(Year);
+        car.setMileage(Mileage);
+        car.setType(Type);
+        car.setColour(Colour);
+        car.setTypeEngine(TypeEngine);
+        car.setSizeEngine(SizeEngine);
+        car.setPowerEngine(PowerEngine);
+        car.setBox(Box);
+        car.setTypeDrive(TypeDrive);
+        car.setPrice(Price);
+        car.setDescription(Description);
+        car.setBrand(brand);
+        if (carPhotos != null && carPhotos.length > 1) {
+            List<byte[]> photoList = new ArrayList<>();
+            for (MultipartFile photo : carPhotos) {
+                photoList.add(photo.getBytes());
+            }
+            car.setPhotos(photoList);
+        }
+        brand.getCarList().add(car);
+        brandService.saveBrand(brand);
+        return "redirect:/viewCars/" + brandId;
+    }
 }

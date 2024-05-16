@@ -24,7 +24,7 @@ public class MainController {
             if(isAdmin){
                 return "greetingAdmin";
             }
-            else if(!isAdmin){
+            else {
                 return "greetingUser";
             }
         }

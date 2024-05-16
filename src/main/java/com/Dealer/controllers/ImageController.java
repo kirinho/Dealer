@@ -1,5 +1,5 @@
 package com.Dealer.controllers;
-import com.Dealer.services.ImageService;
+import com.Dealer.repositories.ImageRepository;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class ImageController {
 
-    private final ImageService imageService;
+    private final ImageRepository imageService;
 
-    public ImageController(ImageService imageService) {
+    public ImageController(ImageRepository imageService) {
         this.imageService = imageService;
     }
 

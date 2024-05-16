@@ -4,25 +4,19 @@ import com.Dealer.entities.Brand;
 import com.Dealer.entities.Car;
 import com.Dealer.entities.User;
 import com.Dealer.services.BrandService;
-import com.Dealer.services.CarService;
 import com.Dealer.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Base64;
 import java.util.List;
-import java.util.stream.Collectors;
+
 
 @Controller
 public class BrandController {
@@ -49,7 +43,16 @@ public class BrandController {
         brandService.saveBrand(brand);
         return "redirect:/addBrand";
     }
-
+    @PostMapping("/updateBrand/{id}")
+    public String updateBrand(@PathVariable("id") Long id, @RequestParam("updateName") String brandName,
+                              Authentication authentication) {
+        User user = userService.getUserFromAuthentication(authentication);
+        Brand brand = brandService.getBrandById(id);
+        brand.setName(brandName);
+        brand.setUser(user);
+        brandService.saveBrand(brand);
+        return "redirect:/addBrand";
+    }
     @GetMapping("addCar/{brandId}")
     public String editBrand(@PathVariable Long brandId, Model model, Authentication authentication){
         Brand brand = brandService.getBrandById(brandId);

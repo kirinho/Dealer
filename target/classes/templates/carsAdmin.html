@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Перегляд авто</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css">
+
+  <style>
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f8f9fa;
+        color: #495057;
+    }
+
+    header {
+    background-color: #ff6600;
+  }
+
+
+    .navbar-brand {
+        margin-right: auto;
+        margin-left: 10px;
+        color: #ffffff !important;
+    }
+
+    .navbar-nav .nav-link {
+        color: #ffffff !important;
+        text-decoration: none;
+    }
+
+    .navbar-nav .nav-link:hover {
+        text-decoration: underline;
+    }
+
+    .container {
+        margin-top: 20px;
+    }
+    p.lead {
+        font-size: 18px;
+    }
+
+    .btn-primary {
+        margin-top: 20px;
+        background-color: #ff6600;
+        border-color: #ff6600;
+    }
+
+    .btn-primary:hover {
+        background-color: #cc5200;
+        border-color: #cc5200;
+    }
+    .btn-logout {
+        background-color: #ff6600 !important;
+        border: none;
+        padding: 0;
+        font: inherit;
+        cursor: pointer;
+        outline: none;
+        text-decoration: none;
+        color: #ffffff !important;
+        transition: text-decoration 0.3s;
+    }
+
+    .btn-logout:hover {
+        text-decoration: underline;
+    }
+
+    .btn-logout:active {
+        text-decoration: underline;
+    }
+
+    table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    th, td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+    }
+
+    th {
+        background-color: #f2f2f2;
+    }
+
+    img {
+        max-width: 100px; /* Adjust the max-width as needed */
+        height: auto;
+        display: block;
+        margin: auto;
+    }
+    #car-info {
+        margin-left: 25px;
+        height: 500px;
+        overflow: auto;
+    }
+
+    .car-container {
+        height: 250px;
+        margin-bottom: 20px;
+        border: 1px solid #ccc;
+        padding: 10px;
+        border-radius: 5px;
+        overflow: hidden;
+    }
+    .car-info-container {
+          column-count: 3;
+          column-gap: 20px;
+    }
+
+    form#filterForm {
+        margin-top: 20px;
+        padding: 15px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        background-color: #fff;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    label {
+        margin-right: 10px;
+    }
+
+    select {
+        padding: 5px;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+        margin-right: 10px;
+    }
+
+    button {
+        padding: 8px 12px;
+        background-color: #ff6600;
+        border: 1px solid #cc5200;
+        border-radius: 3px;
+        color: #fff;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background-color: #cc5200;
+        border-color: #cc5200;
+    }
+
+
+  </style>
+</head>
+<body>
+<header>
+  <nav class="navbar navbar-expand-lg navbar-light">
+    <a class="navbar-brand" href="/">
+      <img src="images/Logo.png" alt="Logo" width="30" height="30" class="d-inline-block align-top">
+      Dealer
+    </a>
+    <div class="ml-auto">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" href="/addBrand">Додати авто</a>
+        </li>
+      </ul>
+    </div>
+
+    <ul class="navbar-nav" style="margin-right: 10px;">
+      <form action="/logout" method="POST">
+        <button type="submit" class="btn-logout">Вийти</button>
+      </form>
+    </ul>
+  </nav>
+</header>
+
+<form id="filterForm" method="get" action="/cars">
+  <label for="filterBrand">Фільтр:</label>
+  <select id="filterBrand" name="filterBrand">
+    <option value="">-</option>
+    <th:block th:each="brand : ${brands}">
+      <option th:value="${brand.id}" th:text="${brand.name}" th:selected="${brand.id == selectedBrand}"></option>
+    </th:block>
+  </select>
+
+  <button type="submit">Застосувати</button>
+</form>
+
+
+
+
+<section id="car-info" style="margin-left: 25px;">
+  <div th:if="${cars.isEmpty()}">
+    <h3>Немає автомобілів в бд цього бренду, додайте їх щоб вони тут з'явилися</h3>
+  </div>
+  <div th:each="car, carIndex : ${cars}" class="car-container" style="margin-bottom: 20px; border: 1px solid #ccc; padding: 10px; border-radius: 5px;">
+
+    <div class="car-photo" style="float: left; margin-right: 20px;">
+      <img th:src="${'data:image/png;base64,' + base64[carIndex.index]}" alt="Car Photo" style="width: 280px; height: 230px; max-width: 100%; max-height: 100%;"/>
+    </div>
+    <a th:href="@{'/carDetails/' + ${car.id}}" style="text-decoration: none; color: black;">
+      <div class="car-info-container">
+        <div class="car-info">
+          <p><strong>🎟</strong> <span th:text="${car.model}"></span></p>
+          <p><strong>📆</strong> <span th:text="${car.year} + ' р.'"></span></p>
+          <p><strong>💪</strong> <span th:text="${car.typeEngine}"></span></p>
+        </div>
+        <div class="car-info">
+          <p><strong>👟</strong> <span th:text="${car.mileage} + ' км'"></span></p>
+          <p><strong>📦</strong> <span th:text="${car.box}"></span></p>
+          <p><strong>📍</strong> <span th:text="'м. ' + ${car.city}"></span></p>
+        </div>
+        <div class="car-info">
+          <p><strong>🇺🇸</strong> <span th:text="${car.price} + ' 💲'"></span></p>
+          <p><strong>🇺🇦</strong> <span th:text="${car.price * 40} + ' ₴'"></span></p>
+        </div>
+      </div>
+    </a>
+  </div>
+
+</section>
+
+</body>
+</html>
